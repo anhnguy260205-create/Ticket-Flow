@@ -1,10 +1,13 @@
 from flask import Flask
 from flask_cors import CORS
 
-from db import get_connection
+from db import db, get_connection
+from model import Ticket
 
 app = Flask(__name__)
 CORS(app)
+
+db.init_app(app)
 
 
 @app.route("/")
@@ -14,13 +17,8 @@ def health():
 
 @app.route("/tickets")
 def list_tickets():
-    conn = get_connection()
-    try:
-        with conn.cursor() as cursor:
-            cursor.execute("SELECT * FROM tickets")
-            return cursor.fetchall()
-    finally:
-        conn.close()
+    tickets = Ticket.query.all()
+    return {"tickets": [ticket.to_dict() for ticket in tickets]}
 
 
 if __name__ == "__main__":
