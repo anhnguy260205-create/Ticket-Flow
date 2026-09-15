@@ -2,7 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 
 from db import db, get_connection
-from model import Ticket
+from model import ticket, user
 
 app = Flask(__name__)
 CORS(app)
@@ -17,7 +17,7 @@ def health():
 
 @app.route("/tickets")
 def list_tickets():
-    tickets = Ticket.query.all()
+    tickets = ticket.Ticket.query.all()
     return {"tickets": [ticket.to_dict() for ticket in tickets]}
 
 
