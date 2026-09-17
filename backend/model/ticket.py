@@ -4,8 +4,9 @@ from db import db
 class Ticket(db.Model):
     __tablename__ = 'tickets'
 
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    ticket_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(
+        'users.user_id'), nullable=False)
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text)
     status = db.Column(db.Enum('open', 'in_progress', 'resolved',
@@ -65,3 +66,18 @@ class Ticket(db.Model):
     @staticmethod
     def get_tickets_by_user_id(user_id):
         pass
+
+    @staticmethod
+    def to_dict(self):
+        return {
+            'ticket_id': self.ticket_id,
+            'user_id': self.user_id,
+            'title': self.title,
+            'description': self.description,
+            'status': self.status,
+            'priority': self.priority,
+            'category': self.category,
+            'assigned_role': self.assigned_role,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'sla_due_at': self.sla_due_at.isoformat() if self.sla_due_at else None
+        }

@@ -4,7 +4,7 @@ from db import db
 class User(db.Model):
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     password_hash = db.Column(db.String(255), nullable=False)
@@ -27,3 +27,13 @@ class User(db.Model):
     @staticmethod
     def login_user(username, password_hash):
         pass
+
+    @staticmethod
+    def dict(self):
+        return {
+            'user_id': self.user_id,
+            'username': self.username,
+            'email': self.email,
+            'role': self.role,
+            'created_at': self.created_at.isoformat()
+        }
