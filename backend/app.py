@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_cors import CORS
 
@@ -6,6 +8,14 @@ from model import ticket, user
 
 app = Flask(__name__)
 CORS(app)
+
+db_user = os.environ["DB_USER"]
+db_password = os.environ["DB_PASSWORD"]
+db_host = os.environ["DB_HOST"]
+db_name = os.environ["DB_NAME"]
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    f"mysql+pymysql://{db_user}:{db_password}@{db_host}/{db_name}"
+)
 
 db.init_app(app)
 
