@@ -20,54 +20,94 @@ class Ticket(db.Model):
     sla_due_at = db.Column(db.DateTime)
 
     @staticmethod
-    def get_task():
-        pass
+    def get_all_tickets():
+        return Ticket.query.all()
 
     @staticmethod
     def get_ticket_by_id(ticket_id):
-        pass
+        return Ticket.query.get(ticket_id)
 
     @staticmethod
     def get_tickets_by_status(status):
-        pass
+        return Ticket.query.filter_by(status=status).all()
 
     @staticmethod
     def get_tickets_by_priority(priority):
-        pass
+        return Ticket.query.filter_by(priority=priority).all()
 
     @staticmethod
     def get_tickets_by_category(category):
-        pass
+        return Ticket.query.filter_by(category=category).all()
 
     @staticmethod
     def get_tickets_by_assigned_role(assigned_role):
-        pass
+        return Ticket.query.filter_by(assigned_role=assigned_role).all()
 
     @staticmethod
     def get_tickets_by_sla_due_date(sla_due_at):
-        pass
+        return Ticket.query.fileter_by(sla_due_at=sla_due_at).all()
 
     @staticmethod
     def get_tickets_by_created_at(created_at):
-        pass
+        return Ticket.query.filter_by(created_at=created_at).all()
 
     @staticmethod
     def create_ticket(title, description, status, priority, category, assigned_role, sla_due_at):
-        pass
+        new_ticket = Ticket(title=title, description=description, status=status, priority=priority,
+                            category=category, assigned_role=assigned_role, sla_due_at=sla_due_at)
+        try:
+            db.session.add(new_ticket)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            raise e
+            return None
+        return new_ticket
 
     @staticmethod
     def update_ticket(ticket_id, title=None, description=None, status=None, priority=None, category=None, assigned_role=None, sla_due_at=None):
-        pass
+        ticket = Ticket.get_ticket_by_id(ticket_id)
+        if not ticket:
+            return None
+        if title is not None:
+            ticket.title = title
+        if description is not None:
+            ticket.description = description
+        if status is not None:
+            ticket.status = status
+        if priority is not None:
+            ticket.priority = priority
+        if category is not None:
+            ticket.category = category
+        if assigned_role is not None:
+            ticket.assigned_role = assigned_role
+        if sla_due_at is not None:
+            ticket.sla_due_at = sla_due_at
+
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            raise e
+        return ticket
 
     @staticmethod
-    def delete_ticket(ticket_id):
-        pass
+    def delete_ticket(ticket_id) -> bool:
+        ticket = Ticket.get_ticket_by_id(ticket_id)
+        if not ticket:
+            return False
+        try:
+            db.session.delete(ticket)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            raise e
+        return True
 
     @staticmethod
     def get_tickets_by_user_id(user_id):
-        pass
+        return Ticket.query.filter_by(user_id=user_id).all()
 
-    @staticmethod
     def to_dict(self):
         return {
             'ticket_id': self.ticket_id,

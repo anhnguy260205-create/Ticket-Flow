@@ -14,21 +14,36 @@ class User(db.Model):
 
     @staticmethod
     def get_user_by_id(user_id):
-        pass
+        return User.query.get(user_id)
 
     @staticmethod
     def get_user_by_username(username):
-        pass
+        return User.query.filter_by(username=username).first()
 
     @staticmethod
-    def register_user(username, email, password_hash, role='user'):
-        pass
+    def get_user_by_email(email) -> bool:
+        return User.query.filter_by(email=email).first() is not None
+
+    @staticmethod
+    def filter_user_by_role(role):
+        return User.query.filter_by(role=role).all()
+
+    @staticmethod
+    def register_user(username, email, password_hash, role):
+        if User.get_user_by_username(username) or User.get_user_by_email(email):
+            return None  # User already exists
+        new_user = User(username=username, email=email,
+                        password_hash=password_hash, role=role)
+        db.session.add(new_user)
+        db.session.commit()
 
     @staticmethod
     def login_user(username, password_hash):
-        pass
+        user = User.get_user_by_username(username)
+        if user and user.password_hash == password_hash:
+            return user
+        return None
 
-    @staticmethod
     def dict(self):
         return {
             'user_id': self.user_id,
