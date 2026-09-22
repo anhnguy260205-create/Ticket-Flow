@@ -8,7 +8,8 @@ class User(db.Model):
     username = db.Column(db.String(255), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     password_hash = db.Column(db.String(255), nullable=False)
-    role = db.Column(db.Enum('admin', 'user'), nullable=False, default='user')
+    role = db.Column(db.Enum('admin', 'user', 'staff'),
+                     nullable=False, default='user')
     created_at = db.Column(db.DateTime, nullable=False,
                            default=db.func.current_timestamp())
 

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>TicketFlow — Admin: all tickets</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@500;600;700&display=swap">
+    <link rel="stylesheet" href="../css/homepage.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body>
+    <div style="min-height:100vh;box-sizing:border-box;background:#F7F7F5;display:flex;flex-direction:column;">
+
+        <!-- Nav -->
+        <div
+            style="display:flex;align-items:center;justify-content:space-between;padding:20px 56px;background:#FFFFFF;border-bottom:1px solid #E3E3DD;flex-wrap:wrap;gap:16px;">
+            <div style="display:flex;align-items:center;gap:48px;flex-wrap:wrap;">
+                <a href="../index.html" style="display:flex;align-items:center;gap:10px;">
+                    <span
+                        style="width:30px;height:30px;border-radius:8px;background:#3454D1;display:flex;align-items:center;justify-content:center;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF"
+                            stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </span>
+                    <span
+                        style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:19px;">TicketFlow</span>
+                </a>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <a href="Dashboard.html"
+                        style="font-size:14px;font-weight:600;color:#3454D1;background:#EAEEFB;padding:9px 16px;border-radius:8px;">All
+                        tickets</a>
+                    <a href="../Staff/Dashboard.html"
+                        style="font-size:14px;font-weight:600;color:#4B4E57;padding:9px 16px;border-radius:8px;">Staff</a>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+                <span
+                    style="width:36px;height:36px;border-radius:999px;background:#3454D1;color:#FFFFFF;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;">MP</span>
+                <div style="display:flex;flex-direction:column;line-height:1.3;">
+                    <span style="font-size:13px;font-weight:600;">Morgan Patel</span>
+                    <span style="font-size:12px;color:#8A8D97;">Admin</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div style="padding:36px 56px;display:flex;flex-direction:column;gap:22px;flex-grow:1;">
+            <div style="display:flex;flex-direction:column;gap:6px;">
+                <h1 style="font-size:26px;font-weight:700;">All tickets</h1>
+                <p style="font-size:14px;color:#4B4E57;">Review, allocate, and track every ticket across the team.
+                </p>
+            </div>
+
+            <!-- Stats -->
+            <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;">
+                <div
+                    style="background:#FFFFFF;border:1px solid #E3E3DD;border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:6px;">
+                    <span style="font-size:13px;color:#4B4E57;font-weight:600;">Open</span>
+                    <span id="stat-open"
+                        style="font-size:26px;font-weight:700;font-family:'Space Grotesk',sans-serif;color:#3454D1;"></span>
+                </div>
+                <div
+                    style="background:#FFFFFF;border:1px solid #E3E3DD;border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:6px;">
+                    <span style="font-size:13px;color:#4B4E57;font-weight:600;">In progress</span>
+                    <span id="stat-in-progress"
+                        style="font-size:26px;font-weight:700;font-family:'Space Grotesk',sans-serif;color:#8A4B07;"></span>
+                </div>
+                <div
+                    style="background:#FFFFFF;border:1px solid #E3E3DD;border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:6px;">
+                    <span style="font-size:13px;color:#4B4E57;font-weight:600;">Resolved this week</span>
+                    <span id="stat-resolved"
+                        style="font-size:26px;font-weight:700;font-family:'Space Grotesk',sans-serif;color:#1B7A43;"></span>
+                </div>
+                <div
+                    style="background:#FFFFFF;border:1px solid #E3E3DD;border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:6px;">
+                    <span style="font-size:13px;color:#4B4E57;font-weight:600;">Unassigned</span>
+                    <span id="stat-unassigned"
+                        style="font-size:26px;font-weight:700;font-family:'Space Grotesk',sans-serif;color:#B23131;"></span>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                <div
+                    style="flex-grow:1;display:flex;align-items:center;gap:10px;background:#FFFFFF;border:1px solid #CBCBC2;border-radius:9px;padding:0 14px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A8D97" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="M21 21l-4.3-4.3"></path>
+                    </svg>
+                    <input type="text" placeholder="Search by ticket, customer, or keyword"
+                        style="border:none;padding:11px 0;font-size:14px;flex-grow:1;">
+                </div>
+                <select
+                    style="padding:0 14px;border-radius:9px;border:1px solid #CBCBC2;font-size:14px;background:#FFFFFF;">
+                    <option>All categories</option>
+                    <option>Billing</option>
+                    <option>Technical</option>
+                    <option>Account</option>
+                    <option>Feature request</option>
+                </select>
+                <select
+                    style="padding:0 14px;border-radius:9px;border:1px solid #CBCBC2;font-size:14px;background:#FFFFFF;">
+                    <option>All priorities</option>
+                    <option>Urgent</option>
+                    <option>High</option>
+                    <option>Medium</option>
+                    <option>Low</option>
+                </select>
+            </div>
+
+            <!-- Table -->
+            <div style="background:#FFFFFF;border:1px solid #E3E3DD;border-radius:16px;overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ticket</th>
+                            <th>Customer</th>
+                            <th>Category</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Assigned to</th>
+                            <th>Submitted</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ticket-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/adminDashboard.js"></script>
+</body>
+
+</html>

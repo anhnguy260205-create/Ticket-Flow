@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>TicketFlow — My tickets</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@500;600;700&display=swap">
+    <link rel="stylesheet" href="../css/homepage.css">
+    <link rel="stylesheet" href="../css/user.css">
+</head>
+
+<body>
+    <div style="min-height:100vh;box-sizing:border-box;background:#F7F7F5;display:flex;flex-direction:column;">
+
+        <!-- Nav -->
+        <div
+            style="display:flex;align-items:center;justify-content:space-between;padding:20px 56px;background:#FFFFFF;border-bottom:1px solid #E3E3DD;flex-wrap:wrap;gap:16px;">
+            <div style="display:flex;align-items:center;gap:48px;flex-wrap:wrap;">
+                <a href="../index.html" style="display:flex;align-items:center;gap:10px;">
+                    <span
+                        style="width:30px;height:30px;border-radius:8px;background:#3454D1;display:flex;align-items:center;justify-content:center;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF"
+                            stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </span>
+                    <span
+                        style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:19px;">TicketFlow</span>
+                </a>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <a href="SubmitTicket.html"
+                        style="font-size:14px;font-weight:600;color:#4B4E57;padding:9px 16px;border-radius:8px;">Submit
+                        ticket</a>
+                    <a href="TicketHistory.html"
+                        style="font-size:14px;font-weight:600;color:#3454D1;background:#EAEEFB;padding:9px 16px;border-radius:8px;">My
+                        tickets</a>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+                <span
+                    style="width:36px;height:36px;border-radius:999px;background:#EAEEFB;color:#3454D1;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;">AR</span>
+                <div style="display:flex;flex-direction:column;line-height:1.3;">
+                    <span style="font-size:13px;font-weight:600;">Alex Rivera</span>
+                    <span style="font-size:12px;color:#8A8D97;">Customer</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div style="padding:40px 56px;display:flex;flex-direction:column;gap:24px;flex-grow:1;">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+                <div style="display:flex;flex-direction:column;gap:6px;">
+                    <h1 style="font-size:26px;font-weight:700;">My tickets</h1>
+                    <p style="font-size:14px;color:#4B4E57;">Track the status of everything you've submitted.</p>
+                </div>
+                <a href="SubmitTicket.html"
+                    style="background:#3454D1;color:#FFFFFF;font-size:14px;font-weight:600;padding:12px 20px;border-radius:9px;">+
+                    New ticket</a>
+            </div>
+
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                <div
+                    style="flex-grow:1;display:flex;align-items:center;gap:10px;background:#FFFFFF;border:1px solid #CBCBC2;border-radius:9px;padding:0 14px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A8D97" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="M21 21l-4.3-4.3"></path>
+                    </svg>
+                    <input type="text" placeholder="Search your tickets"
+                        style="border:none;padding:11px 0;font-size:14px;flex-grow:1;">
+                </div>
+                <select
+                    style="padding:0 14px;border-radius:9px;border:1px solid #CBCBC2;font-size:14px;background:#FFFFFF;">
+                    <option>All statuses</option>
+                    <option>Open</option>
+                    <option>In progress</option>
+                    <option>Resolved</option>
+                    <option>Closed</option>
+                </select>
+            </div>
+
+            <div style="background:#FFFFFF;border:1px solid #E3E3DD;border-radius:16px;overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ticket</th>
+                            <th>Category</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Submitted</th>
+                            <th>Last updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="ticket-subject">Invoice #4821 charged twice</span><br><span
+                                    class="ticket-id">TF-2041</span></td>
+                            <td style="color:#4B4E57;">Billing</td>
+                            <td><span class="pill" style="background:#FBEEDD;color:#8A4B07;">High</span></td>
+                            <td><span class="pill" style="background:#E4F4EA;color:#1B7A43;">Resolved</span></td>
+                            <td style="color:#4B4E57;">Sep 12</td>
+                            <td style="color:#4B4E57;">Sep 18</td>
+                        </tr>
+                        <tr>
+                            <td><span class="ticket-subject">Can't reset password after email change</span><br><span
+                                    class="ticket-id">TF-2042</span></td>
+                            <td style="color:#4B4E57;">Account</td>
+                            <td><span class="pill" style="background:#FBEAEA;color:#B23131;">Urgent</span></td>
+                            <td><span class="pill" style="background:#FBEEDD;color:#8A4B07;">In progress</span></td>
+                            <td style="color:#4B4E57;">Sep 19</td>
+                            <td style="color:#4B4E57;">Sep 20</td>
+                        </tr>
+                        <tr>
+                            <td><span class="ticket-subject">Dashboard export button not responding</span><br><span
+                                    class="ticket-id">TF-2043</span></td>
+                            <td style="color:#4B4E57;">Technical</td>
+                            <td><span class="pill" style="background:#EAEEFB;color:#3454D1;">Medium</span></td>
+                            <td><span class="pill" style="background:#EAEEFB;color:#3454D1;">Open</span></td>
+                            <td style="color:#4B4E57;">Sep 21</td>
+                            <td style="color:#4B4E57;">Sep 21</td>
+                        </tr>
+                        <tr>
+                            <td><span class="ticket-subject">Request: dark mode for reports page</span><br><span
+                                    class="ticket-id">TF-2039</span></td>
+                            <td style="color:#4B4E57;">Feature request</td>
+                            <td><span class="pill" style="background:#ECECE8;color:#4B4E57;">Low</span></td>
+                            <td><span class="pill" style="background:#EAEEFB;color:#3454D1;">Open</span></td>
+                            <td style="color:#4B4E57;">Sep 8</td>
+                            <td style="color:#4B4E57;">Sep 15</td>
+                        </tr>
+                        <tr>
+                            <td><span class="ticket-subject">API rate limit unclear in docs</span><br><span
+                                    class="ticket-id">TF-2030</span></td>
+                            <td style="color:#4B4E57;">Technical</td>
+                            <td><span class="pill" style="background:#EAEEFB;color:#3454D1;">Medium</span></td>
+                            <td><span class="pill" style="background:#E4F4EA;color:#1B7A43;">Resolved</span></td>
+                            <td style="color:#4B4E57;">Sep 2</td>
+                            <td style="color:#4B4E57;">Sep 10</td>
+                        </tr>
+                        <tr>
+                            <td><span class="ticket-subject">Seat count not updating after upgrade</span><br><span
+                                    class="ticket-id">TF-2018</span></td>
+                            <td style="color:#4B4E57;">Billing</td>
+                            <td><span class="pill" style="background:#FBEEDD;color:#8A4B07;">High</span></td>
+                            <td><span class="pill" style="background:#ECECE8;color:#4B4E57;">Closed</span></td>
+                            <td style="color:#4B4E57;">Aug 29</td>
+                            <td style="color:#4B4E57;">Sep 5</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

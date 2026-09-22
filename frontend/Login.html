@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>TicketFlow — Log in</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@500;600;700&display=swap">
+    <link rel="stylesheet" href="css/homepage.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+
+<body>
+    <div class="auth-page">
+
+        <!-- Brand panel -->
+        <div class="auth-brand">
+            <a href="Homepage.html" class="auth-logo">
+                <span class="auth-logo-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3454D1" stroke-width="2.4"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </span>
+                <span class="auth-logo-text">TicketFlow</span>
+            </a>
+            <div class="auth-brand-copy">
+                <h1 class="auth-brand-title">Welcome back. Your tickets are waiting.</h1>
+                <p class="auth-brand-desc">Track and resolve support tickets in one place — built for customers,
+                    staff, and admins alike.</p>
+            </div>
+            <div class="auth-brand-footer auth-brand-footer--tight">
+                <span class="auth-stat-value">4 hrs</span>
+                <span class="auth-stat-label">Average first response time across TicketFlow teams</span>
+            </div>
+        </div>
+
+        <!-- Form panel -->
+        <div class="auth-form-panel">
+            <div class="auth-form-card">
+                <div class="auth-form-header">
+                    <h2 class="auth-form-title">Log in to TicketFlow</h2>
+                    <p class="auth-form-subtitle">Enter your details to access your account.</p>
+                </div>
+                <form class="auth-form">
+                    <div class="form-field">
+                        <label for="email" class="form-label">Email address</label>
+                        <input id="email" name="email" type="email" placeholder="you@company.com" class="form-input">
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label-row">
+                            <label for="password" class="form-label">Password</label>
+                            <a href="#" class="form-link form-link--small">Forgot password?</a>
+                        </div>
+                        <input id="password" name="password" type="password" placeholder="••••••••" class="form-input">
+                    </div>
+                    <label class="form-checkbox-row">
+                        <input type="checkbox" class="form-checkbox-input">
+                        Stay signed in for 30 days
+                    </label>
+                    <button type="submit" class="btn-primary">Log in</button>
+                </form>
+                <p class="auth-footer-text">New to TicketFlow? <a href="Registration.html" class="form-link">Create
+                        an account</a></p>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
