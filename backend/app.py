@@ -5,9 +5,11 @@ from flask_cors import CORS
 
 from db import db
 from model import ticket, user
+from boundary.userb import user_bp
 
 app = Flask(__name__)
 CORS(app)
+app.register_blueprint(user_bp, url_prefix="/users")
 
 db_user = os.environ["DB_USER"]
 db_password = os.environ["DB_PASSWORD"]

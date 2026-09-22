@@ -1,4 +1,5 @@
 from db import db
+from werkzeug.security import check_password_hash
 
 
 class User(db.Model):
@@ -10,6 +11,8 @@ class User(db.Model):
     password_hash = db.Column(db.String(255), nullable=False)
     role = db.Column(db.Enum('admin', 'user', 'staff'),
                      nullable=False, default='user')
+    employee_code = db.Column(db.String(255), nullable=True)
+    first_time_login = db.Column(db.Boolean, nullable=False, default=True)
     created_at = db.Column(db.DateTime, nullable=False,
                            default=db.func.current_timestamp())
 
@@ -22,8 +25,8 @@ class User(db.Model):
         return User.query.filter_by(username=username).first()
 
     @staticmethod
-    def get_user_by_email(email) -> bool:
-        return User.query.filter_by(email=email).first() is not None
+    def get_user_by_email(email):
+        return User.query.filter_by(email=email).first()
 
     @staticmethod
     def filter_user_by_role(role):
@@ -37,11 +40,12 @@ class User(db.Model):
                         password_hash=password_hash, role=role)
         db.session.add(new_user)
         db.session.commit()
+        return new_user
 
     @staticmethod
-    def login_user(username, password_hash):
-        user = User.get_user_by_username(username)
-        if user and user.password_hash == password_hash:
+    def login_user(email, password):
+        user = User.get_user_by_email(email)
+        if user and check_password_hash(user.password_hash, password):
             return user
         return None
 
@@ -53,3 +57,7 @@ class User(db.Model):
             'role': self.role,
             'created_at': self.created_at.isoformat()
         }
+
+    @staticmethod
+    def check_employee_code_exists(employee_code):
+        return User.query.filter_by(employee_code=employee_code).first() is not None

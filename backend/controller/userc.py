@@ -1,4 +1,4 @@
-from backend.model.user import User
+from model.user import User
 
 
 class CreateUserController:
@@ -7,8 +7,8 @@ class CreateUserController:
 
 
 class LoginUserController:
-    def loginUser(self, username, password_hash):
-        return User.login_user(username, password_hash)
+    def loginUser(self, email, password):
+        return User.login_user(email, password)
 
 
 class FilterUserByRoleController:

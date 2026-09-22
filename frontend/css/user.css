@@ -12,6 +12,12 @@ th {
     padding: 0 16px 12px 16px;
 }
 
+thead th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /* optional, for balance */
+}
+
 td {
     padding: 16px;
     font-size: 14px;

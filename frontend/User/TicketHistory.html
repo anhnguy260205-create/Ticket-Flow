@@ -20,8 +20,8 @@
                 <a href="../index.html" style="display:flex;align-items:center;gap:10px;">
                     <span
                         style="width:30px;height:30px;border-radius:8px;background:#3454D1;display:flex;align-items:center;justify-content:center;">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF"
-                            stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path d="M5 13l4 4L19 7"></path>
                         </svg>
                     </span>
@@ -44,6 +44,9 @@
                     <span style="font-size:13px;font-weight:600;">Alex Rivera</span>
                     <span style="font-size:12px;color:#8A8D97;">Customer</span>
                 </div>
+                <button onclick="handleLogout()"
+                    style="background:none;border:none;font-size:13px;font-weight:600;color:#B23131;padding:8px 12px;border-radius:8px;">Log
+                    out</button>
             </div>
         </div>
 
@@ -153,5 +156,11 @@
         </div>
     </div>
 </body>
+<script>
+    function handleLogout() {
+        localStorage.removeItem('ticketflow_user');
+        window.location.href = '../Login.html';
+    }
+</script>
 
 </html>

@@ -40,3 +40,7 @@ select:focus {
     outline: 2px solid #3454D1;
     outline-offset: 1px;
 }
+
+[hidden] {
+    display: none !important;
+}

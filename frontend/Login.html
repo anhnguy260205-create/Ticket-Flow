@@ -42,22 +42,21 @@
                     <h2 class="auth-form-title">Log in to TicketFlow</h2>
                     <p class="auth-form-subtitle">Enter your details to access your account.</p>
                 </div>
-                <form class="auth-form">
+                <form class="auth-form" onsubmit="handleFormSubmit(event)">
                     <div class="form-field">
                         <label for="email" class="form-label">Email address</label>
-                        <input id="email" name="email" type="email" placeholder="you@company.com" class="form-input">
+                        <input id="email" name="email" type="email" placeholder="you@company.com" class="form-input"
+                            required>
                     </div>
                     <div class="form-field">
                         <div class="form-label-row">
                             <label for="password" class="form-label">Password</label>
                             <a href="#" class="form-link form-link--small">Forgot password?</a>
                         </div>
-                        <input id="password" name="password" type="password" placeholder="••••••••" class="form-input">
+                        <input id="password" name="password" type="password" placeholder="••••••••" class="form-input"
+                            required>
                     </div>
-                    <label class="form-checkbox-row">
-                        <input type="checkbox" class="form-checkbox-input">
-                        Stay signed in for 30 days
-                    </label>
+
                     <button type="submit" class="btn-primary">Log in</button>
                 </form>
                 <p class="auth-footer-text">New to TicketFlow? <a href="Registration.html" class="form-link">Create
@@ -67,5 +66,50 @@
 
     </div>
 </body>
+<script>
+    function handleFormSubmit(event) {
+        event.preventDefault();
+
+        // not by email, so the "Email address" field's value is sent as the username here.
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        if (!email || !password) {
+            alert('Please fill in both email and password.');
+            return;
+        }
+
+        fetch('http://localhost:5000/users/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, password: password })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    document.getElementById('password').value = ''; // Clear the password field
+                    document.getElementById('email').value = '';
+                    return;
+                }
+
+                localStorage.setItem('ticketflow_user', JSON.stringify(data.user));
+                alert('Login successful!');
+
+                if (data.user.role === 'admin') {
+                    window.location.href = 'Admin/Dashboard.html';
+                } else if (data.user.role === 'staff') {
+                    window.location.href = 'Staff/Dashboard.html';
+                } else {
+                    window.location.href = 'User/TicketHistory.html';
+                }
+
+            })
+            .catch(error => {
+                console.error('Error during login:', error);
+                alert('Could not reach the server. Is the backend running?');
+            });
+    }
+</script>
 
 </html>

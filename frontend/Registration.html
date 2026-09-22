@@ -61,29 +61,33 @@
                     <h2 class="auth-form-title">Create your account</h2>
                     <p class="auth-form-subtitle">Takes less than a minute.</p>
                 </div>
-                <form class="auth-form">
+                <form class="auth-form" onsubmit="handleFormSubmit(event)">
                     <div class="form-field">
                         <label for="username" class="form-label">Username</label>
-                        <input id="username" name="username" type="text" placeholder="janedoe" class="form-input">
+                        <input id="username" name="username" type="text" placeholder="janedoe" class="form-input"
+                            required>
                     </div>
                     <div class="form-field">
                         <label for="email" class="form-label">Email address</label>
-                        <input id="email" name="email" type="email" placeholder="you@company.com" class="form-input">
+                        <input id="email" name="email" type="email" placeholder="you@company.com" class="form-input"
+                            required>
                     </div>
+
+
                     <div class="form-field-row">
                         <div class="form-field">
                             <label for="password" class="form-label">Password</label>
                             <input id="password" name="password" type="password" placeholder="••••••••"
-                                class="form-input">
+                                class="form-input" required>
                         </div>
                         <div class="form-field">
                             <label for="confirm" class="form-label">Confirm</label>
-                            <input id="confirm" name="confirm" type="password" placeholder="••••••••"
-                                class="form-input">
+                            <input id="confirm" name="confirm" type="password" placeholder="••••••••" class="form-input"
+                                required>
                         </div>
                     </div>
                     <label class="form-terms">
-                        <input type="checkbox" class="form-checkbox-input">
+                        <input type="checkbox" class="form-checkbox-input" required>
                         I agree to the <a href="#" class="form-link">Terms of Service</a> and
                         <a href="#" class="form-link">Privacy Policy</a>
                     </label>
@@ -96,5 +100,46 @@
 
     </div>
 </body>
+<script>
+
+    function handleFormSubmit(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        // Get the field values from the form
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm').value;
+
+        // Check if the password and confirm password match
+        if (password !== confirmPassword) {
+            alert('Passwords do not match. Please try again.');
+            return; // Stop further execution
+        }
+
+        if (!username || !email || !password) {
+            alert('Please fill in username, email, and password.');
+            return;
+        }
+
+        fetch('http://localhost:5000/users/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: username, email: email, password: password })
+        })
+            .then((res) => res.json().then((data) => ({ status: res.status, data: data })))
+            .then(({ status, data }) => {
+                if (status === 201) {
+                    alert('Account created! You can now log in.');
+                    window.location.href = 'Login.html';
+                } else {
+                    alert(data.error || 'Registration failed. Please try again.');
+                }
+            })
+            .catch(() => {
+                alert('Could not reach the server. Is the backend running?');
+            });
+    }
+</script>
 
 </html>
