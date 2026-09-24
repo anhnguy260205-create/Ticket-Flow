@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 
-from controller.ticketc import CreateTicketController, UpdateTicketController, GetAllTicketsController, GetTicketByStatusController, GetTicketByPriorityController, GetTicketByCategoryController, GetTicketByAssignedRoleController, GetTicketBySlaDueDateController, GetTicketByUserIDController, AdminUpdateTicketController
+from controller.ticketc import CreateTicketController, GetAllTicketsController, GetTicketByAssignedRoleController, GetTicketByUserIDController, AdminUpdateTicketController
 from model.user import User
 
 ticket_bp = Blueprint("tickets", __name__)

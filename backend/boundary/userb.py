@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from werkzeug.security import generate_password_hash
 
-from controller.userc import CreateUserController, GetStaffCustomerController, LoginUserController, GetUserInformationController, FilterUserByRoleController
+from controller.userc import CreateUserController, GetStaffCustomerController, LoginUserController, GetUserInformationController
 
 user_bp = Blueprint("users", __name__)
 

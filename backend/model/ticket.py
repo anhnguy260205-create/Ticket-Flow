@@ -28,28 +28,8 @@ class Ticket(db.Model):
         return Ticket.query.get(ticket_id)
 
     @staticmethod
-    def get_tickets_by_status(status):
-        return Ticket.query.filter_by(status=status).all()
-
-    @staticmethod
-    def get_tickets_by_priority(priority):
-        return Ticket.query.filter_by(priority=priority).all()
-
-    @staticmethod
-    def get_tickets_by_category(category):
-        return Ticket.query.filter_by(category=category).all()
-
-    @staticmethod
     def get_tickets_by_assigned_role(assigned_role):
         return Ticket.query.filter_by(assigned_role=assigned_role).all()
-
-    @staticmethod
-    def get_tickets_by_sla_due_date(sla_due_at):
-        return Ticket.query.fileter_by(sla_due_at=sla_due_at).all()
-
-    @staticmethod
-    def get_tickets_by_created_at(created_at):
-        return Ticket.query.filter_by(created_at=created_at).all()
 
     @staticmethod
     def create_ticket(title, user_id, description, priority, category, sla_due_at):
@@ -113,19 +93,6 @@ class Ticket(db.Model):
             db.session.rollback()
             raise e
         return ticket
-
-    @staticmethod
-    def delete_ticket(ticket_id) -> bool:
-        ticket = Ticket.get_ticket_by_id(ticket_id)
-        if not ticket:
-            return False
-        try:
-            db.session.delete(ticket)
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            raise e
-        return True
 
     @staticmethod
     def get_tickets_by_user_id(user_id):

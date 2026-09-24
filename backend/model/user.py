@@ -29,10 +29,6 @@ class User(db.Model):
         return User.query.filter_by(email=email).first()
 
     @staticmethod
-    def filter_user_by_role(role):
-        return User.query.filter_by(role=role).all()
-
-    @staticmethod
     def register_user(username, email, password_hash, role):
         if User.get_user_by_username(username) or User.get_user_by_email(email):
             return None  # User already exists
@@ -66,7 +62,3 @@ class User(db.Model):
             'employee_code': self.employee_code,
             'created_at': self.created_at.isoformat()
         }
-
-    @staticmethod
-    def check_employee_code_exists(employee_code):
-        return User.query.filter_by(employee_code=employee_code).first() is not None
