@@ -13,6 +13,12 @@ th {
     white-space: nowrap;
 }
 
+thead th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /* optional, for balance */
+}
+
 td {
     padding: 13px 14px;
     font-size: 14px;

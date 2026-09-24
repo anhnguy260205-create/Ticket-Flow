@@ -83,6 +83,7 @@ td {
 .form-textarea {
     resize: vertical;
     min-height: 120px;
+    width: 545px;
 }
 
 .btn-primary {
