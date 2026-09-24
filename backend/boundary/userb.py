@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from werkzeug.security import generate_password_hash
 
-from controller.userc import CreateUserController, LoginUserController, GetUserInformationController, FilterUserByRoleController
+from controller.userc import CreateUserController, GetStaffCustomerController, LoginUserController, GetUserInformationController, FilterUserByRoleController
 
 user_bp = Blueprint("users", __name__)
 
@@ -51,4 +51,10 @@ def Logout():
 @user_bp.route("/get_all_users", methods=['GET'])
 def get_all_user():
     all_users = GetUserInformationController().getUserInformation()
+    return {"message": "Get information successfully", "users": [u.dict() for u in all_users]}, 200
+
+
+@user_bp.route("/get_staffs_customers", methods=['GET'])
+def get_staffs_customers():
+    all_users = GetStaffCustomerController().getStaffCustomer()
     return {"message": "Get information successfully", "users": [u.dict() for u in all_users]}, 200

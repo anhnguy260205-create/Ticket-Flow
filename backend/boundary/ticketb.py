@@ -48,6 +48,19 @@ def get_all_tickets():
     return {"tickets": result}, 200
 
 
+@ticket_bp.route("/get-tickets-by-assigned-role", methods=["GET"])
+def get_tickets_by_assigned_role():
+    assigned_role = request.args.get("assigned_role")
+    tickets = GetTicketByAssignedRoleController().getTicketsByAssignedRole(assigned_role)
+    result = []
+    for t in tickets:
+        d = t.to_dict()
+        owner = User.get_user_by_id(t.user_id)
+        d["customer"] = owner.username if owner else None
+        result.append(d)
+    return {"tickets": result}, 200
+
+
 @ticket_bp.route("/update-ticket/<int:ticket_id>", methods=["PATCH"])
 def update_ticket_status(ticket_id):
     data = request.get_json(silent=True) or {}

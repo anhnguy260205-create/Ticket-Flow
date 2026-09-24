@@ -6,64 +6,55 @@ const STATUS_COLORS = {
 };
 
 const PRIORITY_COLORS = {
-    "Urgent": { bg: "#FBEAEA", text: "#B23131" },
+    "Critical": { bg: "#FBEAEA", text: "#B23131" },
     "High": { bg: "#FBEEDD", text: "#8A4B07" },
     "Medium": { bg: "#EAEEFB", text: "#3454D1" },
     "Low": { bg: "#ECECE8", text: "#4B4E57" }
 };
 
-let tickets = [
-    {
-        id: "TF-2042",
-        subject: "Can't reset password after email change",
-        description: "Customer updated their email in account settings and the reset link now bounces with an invalid-token error.",
-        customer: "Morgan Ito",
-        category: "Account",
-        priority: "Urgent",
-        status: "In Progress",
-        date: "Sep 19"
-    },
-    {
-        id: "TF-2045",
-        subject: "Two-factor codes arriving late",
-        description: "SMS codes are taking 3-4 minutes to arrive, well past the 5 minute expiry window during peak hours.",
-        customer: "Riley Chen",
-        category: "Account",
-        priority: "Medium",
-        status: "In Progress",
-        date: "Sep 20"
-    },
-    {
-        id: "TF-2050",
-        subject: "Team member removed but still billed",
-        description: "A seat was removed from the workspace on Sep 15 but still appears on the latest invoice.",
-        customer: "Priya Shah",
-        category: "Billing",
-        priority: "High",
-        status: "Open",
-        date: "Sep 21"
-    },
-    {
-        id: "TF-2036",
-        subject: "CSV export missing custom fields",
-        description: "Exported ticket reports leave out the two custom fields the team added last quarter.",
-        customer: "Noah Park",
-        category: "Technical",
-        priority: "Low",
-        status: "Resolved",
-        date: "Sep 11"
-    },
-    {
-        id: "TF-2028",
-        subject: "Slack notifications duplicated",
-        description: "Every status change posts to Slack twice since the integration was reconnected last week.",
-        customer: "Taylor Brooks",
-        category: "Technical",
-        priority: "Medium",
-        status: "Resolved",
-        date: "Sep 9"
-    }
-];
+// backend enum values (model/ticket.py) <-> display labels used above
+const STATUS_TO_DISPLAY = { open: "Open", in_progress: "In Progress", resolved: "Resolved", closed: "Closed" };
+const STATUS_TO_BACKEND = { "Open": "open", "In Progress": "in_progress", "Resolved": "resolved", "Closed": "closed" };
+const PRIORITY_TO_DISPLAY = { low: "Low", medium: "Medium", high: "High", critical: "Critical" };
+
+let tickets = [];
+
+function loadTickets() {
+    const storedUser = JSON.parse(localStorage.getItem('ticketflow_user'));
+    if (!storedUser) return;
+
+    fetch(`http://localhost:5000/tickets/get-tickets-by-assigned-role?assigned_role=${encodeURIComponent(storedUser.username)}`)
+        .then(response => response.json())
+        .then(data => {
+            tickets = (data.tickets || []).map((t) => ({
+                ticketId: t.ticket_id,
+                id: `TF-${t.ticket_id}`,
+                subject: t.title,
+                description: t.description,
+                customer: t.customer || `User #${t.user_id}`,
+                category: t.category,
+                priority: PRIORITY_TO_DISPLAY[t.priority] || t.priority,
+                status: STATUS_TO_DISPLAY[t.status] || t.status,
+                date: t.created_at ? new Date(t.created_at).toLocaleDateString() : ""
+            }));
+            renderStats();
+            renderTickets();
+        })
+        .catch(error => console.error('Error fetching tickets:', error));
+}
+
+function persistTicketUpdate(ticketId, body) {
+    fetch(`http://localhost:5000/tickets/update-ticket/${ticketId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) console.error('Failed to update ticket:', data.error);
+        })
+        .catch(error => console.error('Error updating ticket:', error));
+}
 
 function renderStats() {
     document.getElementById("stat-total").textContent = tickets.length;
@@ -78,6 +69,7 @@ function onStatusChange(ticketId, newStatus) {
     ticket.status = newStatus;
     renderStats();
     renderTickets();
+    persistTicketUpdate(ticket.ticketId, { status: STATUS_TO_BACKEND[newStatus] || newStatus });
 }
 
 function renderTickets() {
@@ -139,5 +131,4 @@ function renderTickets() {
     });
 }
 
-renderStats();
-renderTickets();
+loadTickets();

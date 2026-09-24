@@ -19,3 +19,8 @@ class FilterUserByRoleController:
 class GetUserInformationController:
     def getUserInformation(self):
         return User.get_user_infor()
+
+
+class GetStaffCustomerController:
+    def getStaffCustomer(self):
+        return User.get_staffs_customers()

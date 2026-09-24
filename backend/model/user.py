@@ -53,12 +53,17 @@ class User(db.Model):
     def get_user_infor():
         return User.query.all()
 
+    @staticmethod
+    def get_staffs_customers():
+        return User.query.filter(User.role.in_(["staff", "user"])).all()
+
     def dict(self):
         return {
             'user_id': self.user_id,
             'username': self.username,
             'email': self.email,
             'role': self.role,
+            'employee_code': self.employee_code,
             'created_at': self.created_at.isoformat()
         }
 
