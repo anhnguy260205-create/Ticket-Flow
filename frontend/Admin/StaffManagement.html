@@ -38,10 +38,10 @@
                 </div>
             </div>
             <div style="display:flex;align-items:center;gap:12px;">
-                <span
+                <span id="userInitials"
                     style="width:36px;height:36px;border-radius:999px;background:#3454D1;color:#FFFFFF;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;">MP</span>
                 <div style="display:flex;flex-direction:column;line-height:1.3;">
-                    <span style="font-size:13px;font-weight:600;">Morgan Patel</span>
+                    <span id="userName" style="font-size:13px;font-weight:600;">Morgan Patel</span>
                     <span style="font-size:12px;color:#8A8D97;">Admin</span>
                 </div>
                 <button onclick="handleLogout()"
@@ -143,6 +143,13 @@
         localStorage.removeItem('ticketflow_user');
         window.location.href = '../Login.html';
     }
+    function displayInfor() {
+        const infor = JSON.parse(localStorage.getItem('ticketflow_user'));
+        document.getElementById('userName').textContent = infor.username
+        const initials = infor.username.split(' ').map(word => word[0]).join('').toUpperCase().slice(0, 2);
+        document.getElementById('userInitials').textContent = initials;
+    }
+    displayInfor();
 </script>
 
 </html>

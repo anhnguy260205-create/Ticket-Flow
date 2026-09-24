@@ -49,6 +49,10 @@ class User(db.Model):
             return user
         return None
 
+    @staticmethod
+    def get_user_infor():
+        return User.query.all()
+
     def dict(self):
         return {
             'user_id': self.user_id,

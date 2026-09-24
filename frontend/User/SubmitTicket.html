@@ -18,7 +18,7 @@
         <div
             style="display:flex;align-items:center;justify-content:space-between;padding:20px 56px;background:#FFFFFF;border-bottom:1px solid #E3E3DD;flex-wrap:wrap;gap:16px;">
             <div style="display:flex;align-items:center;gap:48px;flex-wrap:wrap;">
-                <a href="Dashboard.html" style="display:flex;align-items:center;gap:10px;">
+                <a href="TicketHistory.html" style="display:flex;align-items:center;gap:10px;">
                     <span
                         style="width:30px;height:30px;border-radius:8px;background:#3454D1;display:flex;align-items:center;justify-content:center;">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4"
@@ -39,10 +39,10 @@
                 </div>
             </div>
             <div style="display:flex;align-items:center;gap:12px;">
-                <span
+                <span id="userInitials"
                     style="width:36px;height:36px;border-radius:999px;background:#EAEEFB;color:#3454D1;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;">AR</span>
                 <div style="display:flex;flex-direction:column;line-height:1.3;">
-                    <span style="font-size:13px;font-weight:600;">Alex Rivera</span>
+                    <span id="userName" style="font-size:13px;font-weight:600;">Alex Rivera</span>
                     <span style="font-size:12px;color:#8A8D97;">Customer</span>
                 </div>
                 <button onclick="handleLogout()"
@@ -57,7 +57,6 @@
                 <h1 style="font-size:26px;font-weight:700;">Submit a ticket</h1>
                 <p style="font-size:14px;color:#4B4E57;">Describe the issue and we'll route it to the right team.</p>
             </div>
-
             <div class="form-card">
                 <form style="display:flex;flex-direction:column;gap:18px;" onsubmit="handleSubmitTicket(event)">
                     <div class="form-field">
@@ -98,10 +97,28 @@
     </div>
 </body>
 <script>
+    function toMySQLDateTime(date) {
+        const pad = n => String(n).padStart(2, '0');
+        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ` +
+            `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+    }
+
     function handleLogout() {
         localStorage.removeItem('ticketflow_user');
         window.location.href = '../Login.html';
     }
+    function displayUserInfor() {
+        const user_infor = JSON.parse(localStorage.getItem('ticketflow_user'));
+        document.getElementById('userName').textContent = user_infor.username;
+        const initials = user_infor.username
+            .split(' ')
+            .map(word => word[0])
+            .join('')
+            .toUpperCase()
+            .slice(0, 2);
+        document.getElementById('userInitials').textContent = initials;
+    }
+    displayUserInfor();
     function handleSubmitTicket(event) {
         event.preventDefault();
 
@@ -109,23 +126,51 @@
         const category = document.getElementById('category').value;
         const priority = document.getElementById('priority').value;
         const description = document.getElementById('description').value;
+        const user_id = JSON.parse(localStorage.getItem('ticketflow_user')).user_id;
+        let deadline;
+        let sla_due_at = new Date();
+        // set deadline based on the priority selected
+        if (priority === 'critical') {
+            deadline = 2;
+            alert('Critical priority tickets have a deadline of 2 days.');
+        } else if (priority === 'high') {
+            deadline = 5;
+            alert('High priority tickets have a deadline of 5 days.');
+        } else if (priority === 'medium') {
+            deadline = 10;
+            alert('Medium priority tickets have a deadline of 10 days.');
+        } else if (priority === 'low') {
+            deadline = 15;
+            alert('Low priority tickets have a deadline of 15 days.');
+        } else {
+            alert('Invalid priority selected.');
+            return;
+        }
+        // set the SLA due date based on the priority selected
+        sla_due_at.setDate(sla_due_at.getDate() + deadline);
 
         const ticketData = {
             title,
-            category,
+            user_id,
+            description,
             priority,
-            description
+            category,
+            sla_due_at: toMySQLDateTime(sla_due_at)
         };
 
-        fetch('http://localhost:3000/api/tickets', {
+        fetch('http://localhost:5000/tickets/create-tickets', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(ticketData)
         })
-            .then(response => response.json())
-            .then(data => {
+            .then(response => response.json().then(data => ({ ok: response.ok, data })))
+            .then(({ ok, data }) => {
+                if (!ok) {
+                    alert(data.error || 'Failed to submit ticket.');
+                    return;
+                }
                 console.log('Ticket submitted successfully:', data);
                 window.location.href = 'TicketHistory.html';
             })

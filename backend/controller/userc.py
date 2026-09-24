@@ -14,3 +14,8 @@ class LoginUserController:
 class FilterUserByRoleController:
     def filterUserByRole(self, role):
         return User.filter_user_by_role(role)
+
+
+class GetUserInformationController:
+    def getUserInformation(self):
+        return User.get_user_infor()

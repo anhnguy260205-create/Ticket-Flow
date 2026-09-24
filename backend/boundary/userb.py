@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from werkzeug.security import generate_password_hash
 
-from controller.userc import CreateUserController, LoginUserController, FilterUserByRoleController
+from controller.userc import CreateUserController, LoginUserController, GetUserInformationController, FilterUserByRoleController
 
 user_bp = Blueprint("users", __name__)
 
@@ -46,3 +46,9 @@ def login():
 def Logout():
     # In a real application, you would handle session management or token invalidation here.
     return {"message": "Logout successful"}, 200
+
+
+@user_bp.route("/get_all_users", methods=['GET'])
+def get_all_user():
+    all_users = GetUserInformationController().getUserInformation()
+    return {"message": "Get information successfully", "users": [u.dict() for u in all_users]}, 200

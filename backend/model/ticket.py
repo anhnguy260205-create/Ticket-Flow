@@ -52,9 +52,9 @@ class Ticket(db.Model):
         return Ticket.query.filter_by(created_at=created_at).all()
 
     @staticmethod
-    def create_ticket(title, description, status, priority, category, assigned_role, sla_due_at):
-        new_ticket = Ticket(title=title, description=description, status=status, priority=priority,
-                            category=category, assigned_role=assigned_role, sla_due_at=sla_due_at)
+    def create_ticket(title, user_id, description, priority, category, sla_due_at):
+        new_ticket = Ticket(title=title, user_id=user_id, description=description, status='open', priority=priority,
+                            category=category, assigned_role='none', sla_due_at=sla_due_at)
         try:
             db.session.add(new_ticket)
             db.session.commit()
@@ -65,9 +65,11 @@ class Ticket(db.Model):
         return new_ticket
 
     @staticmethod
-    def update_ticket(ticket_id, title=None, description=None, status=None, priority=None, category=None, assigned_role=None, sla_due_at=None):
+    def update_ticket(ticket_id, user_id, title=None, description=None, status=None, priority=None, category=None, assigned_role=None, sla_due_at=None):
         ticket = Ticket.get_ticket_by_id(ticket_id)
         if not ticket:
+            return None
+        if ticket.user_id != user_id:
             return None
         if title is not None:
             ticket.title = title
@@ -83,6 +85,27 @@ class Ticket(db.Model):
             ticket.assigned_role = assigned_role
         if sla_due_at is not None:
             ticket.sla_due_at = sla_due_at
+
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            raise e
+        return ticket
+
+    @staticmethod
+    def admin_update_ticket(ticket_id, status=None, priority=None, category=None, assigned_role=None):
+        ticket = Ticket.get_ticket_by_id(ticket_id)
+        if not ticket:
+            return None
+        if status is not None:
+            ticket.status = status
+        if priority is not None:
+            ticket.priority = priority
+        if category is not None:
+            ticket.category = category
+        if assigned_role is not None:
+            ticket.assigned_role = assigned_role
 
         try:
             db.session.commit()
