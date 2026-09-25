@@ -122,7 +122,7 @@
             return;
         }
 
-        fetch('http://localhost:5000/users/register', {
+        fetch('http://ticketflow-env.eba-gamu7nvf.ap-southeast-1.elasticbeanstalk.com/users/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username: username, email: email, password: password })

@@ -23,7 +23,7 @@ function loadTickets() {
     const storedUser = JSON.parse(localStorage.getItem('ticketflow_user'));
     if (!storedUser) return;
 
-    fetch(`http://localhost:5000/tickets/get-tickets-by-assigned-role?assigned_role=${encodeURIComponent(storedUser.username)}`)
+    fetch(`http://ticketflow-env.eba-gamu7nvf.ap-southeast-1.elasticbeanstalk.com/tickets/get-tickets-by-assigned-role?assigned_role=${encodeURIComponent(storedUser.username)}`)
         .then(response => response.json())
         .then(data => {
             tickets = (data.tickets || []).map((t) => ({
@@ -44,7 +44,7 @@ function loadTickets() {
 }
 
 function persistTicketUpdate(ticketId, body) {
-    fetch(`http://localhost:5000/tickets/update-ticket/${ticketId}`, {
+    fetch(`http://ticketflow-env.eba-gamu7nvf.ap-southeast-1.elasticbeanstalk.com/tickets/update-ticket/${ticketId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)

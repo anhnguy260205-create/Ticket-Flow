@@ -142,7 +142,7 @@
     let allUsers = [];
 
     function loadUsers() {
-        fetch('http://localhost:5000/users/get_staffs_customers')
+        fetch('http://ticketflow-env.eba-gamu7nvf.ap-southeast-1.elasticbeanstalk.com/users/get_staffs_customers')
             .then(response => response.json())
             .then(data => {
                 allUsers = data.users || [];

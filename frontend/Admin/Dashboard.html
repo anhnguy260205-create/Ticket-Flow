@@ -169,7 +169,7 @@
     let STAFF_LIST = [];
 
     function loadStaff() {
-        fetch('http://localhost:5000/users/get_all_users')
+        fetch('http://ticketflow-env.eba-gamu7nvf.ap-southeast-1.elasticbeanstalk.com/users/get_all_users')
             .then(response => response.json())
             .then(data => {
                 STAFF_LIST = (data.users || [])
@@ -188,7 +188,7 @@
     let openAllocateId = null;
 
     function loadTickets() {
-        fetch('http://localhost:5000/tickets/get-all-tickets')
+        fetch('http://ticketflow-env.eba-gamu7nvf.ap-southeast-1.elasticbeanstalk.com/tickets/get-all-tickets')
             .then(response => response.json())
             .then(data => {
                 tickets = (data.tickets || []).map((t) => ({
@@ -210,7 +210,7 @@
     }
 
     function persistTicketUpdate(ticketId, body) {
-        fetch(`http://localhost:5000/tickets/update-ticket/${ticketId}`, {
+        fetch(`http://ticketflow-env.eba-gamu7nvf.ap-southeast-1.elasticbeanstalk.com/tickets/update-ticket/${ticketId}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)

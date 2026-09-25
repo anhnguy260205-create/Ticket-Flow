@@ -158,7 +158,7 @@
             sla_due_at: toMySQLDateTime(sla_due_at)
         };
 
-        fetch('http://localhost:5000/tickets/create-tickets', {
+        fetch('http://ticketflow-env.eba-gamu7nvf.ap-southeast-1.elasticbeanstalk.com/tickets/create-tickets', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -126,7 +126,7 @@
         const storedUser = JSON.parse(localStorage.getItem('ticketflow_user'));
         if (!storedUser) return;
         const user_id = storedUser.user_id;
-        fetch(`http://localhost:5000/tickets/get-tickets?user_id=${user_id}`)
+        fetch(`http://ticketflow-env.eba-gamu7nvf.ap-southeast-1.elasticbeanstalk.com/tickets/get-tickets?user_id=${user_id}`)
             .then(response => response.json())
             .then(data => {
                 const tickets = data.tickets;
