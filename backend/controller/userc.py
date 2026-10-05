@@ -1,4 +1,12 @@
 from model.user import User
+from model.password_reset import PasswordReset
+from utils.mailer import send_reset_code_email
+
+
+def mask_username(username):
+    if len(username) <= 2:
+        return username[0] + "*" * (len(username) - 1)
+    return username[0] + "*" * (len(username) - 2) + username[-1]
 
 
 class CreateUserController:
@@ -26,6 +34,27 @@ class GetUserInforByEmailController:
         return User.get_user_by_email(email)
 
 
+class RequestPasswordResetController:
+    def requestReset(self, email):
+        user = User.get_user_by_email(email)
+        if not user:
+            return None
+        code = PasswordReset.create_reset_code(email)
+        send_reset_code_email(email, code)
+        return mask_username(user.username)
+
+
+class VerifyResetCodeController:
+    def verifyResetCode(self, email, code):
+        return PasswordReset.verify_reset_code(email, code)
+
+
 class ResetPasswordController:
-    def resetPassword(self, email, new_password_hash):
-        return User.reset_password(email, new_password_hash)
+    def resetPassword(self, email, code, new_password_hash):
+        record = PasswordReset.verify_reset_code(email, code)
+        if not record:
+            return False
+        success = User.reset_password(email, new_password_hash)
+        if success:
+            PasswordReset.mark_used(record)
+        return success
