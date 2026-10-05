@@ -53,6 +53,15 @@ class User(db.Model):
     def get_staffs_customers():
         return User.query.filter(User.role.in_(["staff", "user"])).all()
 
+    @staticmethod
+    def reset_password(email, new_password_hash):
+        user = User.get_user_by_email(email)
+        if user:
+            user.password_hash = new_password_hash
+            db.session.commit()
+            return True
+        return False
+
     def dict(self):
         return {
             'user_id': self.user_id,

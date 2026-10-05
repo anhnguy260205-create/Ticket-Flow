@@ -19,3 +19,13 @@ class GetUserInformationController:
 class GetStaffCustomerController:
     def getStaffCustomer(self):
         return User.get_staffs_customers()
+
+
+class GetUserInforByEmailController:
+    def getUserInforByEmail(self, email):
+        return User.get_user_by_email(email)
+
+
+class ResetPasswordController:
+    def resetPassword(self, email, new_password_hash):
+        return User.reset_password(email, new_password_hash)

@@ -5,7 +5,7 @@ from flask_cors import CORS
 from werkzeug.security import generate_password_hash
 
 from db import db
-from model import ticket, user
+from model import ticket, user, password_reset
 from boundary.userb import user_bp
 from boundary.ticketb import ticket_bp
 from controller.userc import CreateUserController, LoginUserController

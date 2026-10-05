@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from werkzeug.security import generate_password_hash
 
-from controller.userc import CreateUserController, GetStaffCustomerController, LoginUserController, GetUserInformationController
+from controller.userc import CreateUserController, GetStaffCustomerController, LoginUserController, GetUserInformationController, ResetPasswordController
 
 user_bp = Blueprint("users", __name__)
 
@@ -58,3 +58,22 @@ def get_all_user():
 def get_staffs_customers():
     all_users = GetStaffCustomerController().getStaffCustomer()
     return {"message": "Get information successfully", "users": [u.dict() for u in all_users]}, 200
+
+
+@user_bp.route("/reset_password", methods=["POST"])
+def reset_password():
+    data = request.get_json(silent=True) or {}
+    email = data.get("email")
+    new_password = data.get("new_password")
+
+    if not email or not new_password:
+        return {"error": "Email and new password are required"}, 400
+
+    # Hash the new password before storing it
+    new_password_hash = generate_password_hash(new_password)
+    success = ResetPasswordController().resetPassword(email, new_password_hash)
+
+    if not success:
+        return {"error": "User with the provided email does not exist"}, 404
+
+    return {"message": "Password reset successfully"}, 200
